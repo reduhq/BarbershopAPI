@@ -3,6 +3,8 @@ import User from "../../Barbershop.Domain/Entities/User";
 import IUserRepository from "../../Barbershop.Domain/Interfaces/IUserRepository";
 import { BarbershopContext } from "../../Barbershop.Domain/BarbershopContext";
 import { injectable } from "inversify";
+import { plainToInstance } from "class-transformer";
+import UserCreateDTO from "../../Barbershop.AppCore/DTO/UserDTO/UserCreateDTO";
 
 @injectable()
 export default class UserRepository implements IUserRepository{
@@ -12,9 +14,16 @@ export default class UserRepository implements IUserRepository{
         this.context = BarbershopContext
     }
 
-    Create(_t: User): Promise<User> {
-        throw new Error("Method not implemented.");
+    public async Create(t: UserCreateDTO): Promise<User> {
+        const userResponse = await this.context.user.create({
+            data:{
+                username: t.username,
+                password: t.password
+            }
+        })
+        return plainToInstance(User, userResponse)
     }
+
     Update(_t: User): Promise<User> {
         throw new Error("Method not implemented.");
     }
@@ -23,13 +32,7 @@ export default class UserRepository implements IUserRepository{
     }
     public async GetAll(): Promise<User[]> {
         const usersResponse =  await this.context.user.findMany()
-        const users:Array<User> = []
-        usersResponse.map(user =>{
-            users.push(new User(user.id, user.username, user.password
-            ))
-        })
-        
-        return users
+        return plainToInstance(User, usersResponse)
     }
 
 }

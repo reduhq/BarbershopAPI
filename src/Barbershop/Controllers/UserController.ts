@@ -15,7 +15,7 @@ export default class UserController{
 
     @httpPost('/', ValidationMiddleware.body(UserCreateDTO))
     public async create(req:Request, res:Response){
-        const newUser = this.userService.Create(req.body)
+        const newUser = await this.userService.Create(req.body)
         return res.status(200).json(newUser)
     }
 

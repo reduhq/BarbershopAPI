@@ -1,19 +1,19 @@
-import {BaseHttpController, controller, httpGet } from 'inversify-express-utils'
+import { Request, Response } from 'express'
+import { controller, httpGet } from 'inversify-express-utils'
 import { inject } from 'inversify'
 import IUserService from '../../Barbershop.AppCore/Interfaces/IUserService'
 
 @controller('/user')
-export default class UserController extends BaseHttpController{
+export default class UserController{
     private userService:IUserService
 
     constructor(@inject('IUserService') userService : IUserService){
-        super()
         this.userService = userService
     }
 
     @httpGet('/')
-    public async getAll(){
+    public async getAll(_req:Request, res:Response){
         const users = await this.userService.GetAll()
-        return this.json(users, 200)
+        return res.status(200).json(users)
     }
 }

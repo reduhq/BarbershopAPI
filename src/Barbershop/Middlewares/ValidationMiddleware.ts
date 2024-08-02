@@ -5,7 +5,7 @@ import { validate, ValidationError } from "class-validator"
 export default class ValidationMiddleware{
     public static body<T extends object>(dto:new()=>T){
         return (req:Request, res:Response, next:NextFunction)=>{
-            const modelDTO = plainToClass(dto, req.body)
+            const modelDTO = plainToClass(dto, req.body, {excludeExtraneousValues: true})
 
             validate(modelDTO).then((errors:ValidationError[]) =>{
                 if(errors.length > 0){

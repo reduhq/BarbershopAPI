@@ -16,9 +16,14 @@ export default class UserController{
 
     @httpPost('/', ValidationMiddleware.body(UserCreateDTO))
     public async create(req:Request, res:Response): Promise<Response<UserDTO>>{
+        const user:UserCreateDTO = req.body
+        // Validating if the username is available
+        const userDB = await this.userService.GetByUsername(user.username)
+        if(userDB){
+            return res.status(409).json("El username ya esta en uso")
+        }
         // Creating a new User
-        const newUser = await this.userService.Create(req.body)
-
+        const newUser = await this.userService.Create(user)
         // Returning the UserDTO
         const response = new UserDTO(
             newUser.id,

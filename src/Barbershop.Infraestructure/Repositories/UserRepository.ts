@@ -5,6 +5,7 @@ import { BarbershopContext } from "../../Barbershop.Domain/BarbershopContext";
 import { injectable } from "inversify";
 import { plainToInstance } from "class-transformer";
 import UserCreateDTO from "../../Barbershop.AppCore/DTO/UserDTO/UserCreateDTO";
+import UserUpdateDTO from "../../Barbershop.AppCore/DTO/UserDTO/UserUpdateDTO";
 
 @injectable()
 export default class UserRepository implements IUserRepository{
@@ -13,7 +14,14 @@ export default class UserRepository implements IUserRepository{
     constructor(){
         this.context = BarbershopContext
     }
-
+    public async GetByUsername(username: string): Promise<User> {
+        const user = await this.context.user.findFirst({
+            where:{
+                username
+            }
+        })
+        return plainToInstance(User, user)
+    }
     public async Create(t: UserCreateDTO): Promise<User> {
         const userResponse = await this.context.user.create({
             data:{
@@ -23,11 +31,10 @@ export default class UserRepository implements IUserRepository{
         })
         return plainToInstance(User, userResponse)
     }
-
-    Update(_t: User): Promise<User> {
+    Update(_t: UserUpdateDTO): Promise<User> {
         throw new Error("Method not implemented.");
     }
-    Delete(_t: User): Promise<Boolean> {
+    Delete(_id: number): Promise<Boolean> {
         throw new Error("Method not implemented.");
     }
     public async GetAll(): Promise<User[]> {

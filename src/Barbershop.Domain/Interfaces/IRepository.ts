@@ -1,7 +1,7 @@
 
-export default interface IRepository<T>{
-    Create(t:T): Promise<T>
-    Update(t:T): Promise<T>
-    Delete(t:T): Promise<Boolean>
-    GetAll(): Promise<Array<T>>
+export default interface IRepository<TModel, TCreate, TUpdate>{
+    Create(t:TCreate): Promise<TModel>
+    Update(t:TUpdate): Promise<TModel>
+    Delete(id:number): Promise<Boolean>
+    GetAll(): Promise<Array<TModel>>
 }

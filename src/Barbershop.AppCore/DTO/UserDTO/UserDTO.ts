@@ -1,16 +1,14 @@
+import { Expose } from "class-transformer";
 import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export default class UserDTO{
+    @Expose()
     @IsNumber()
     @IsNotEmpty()
-    public readonly id:number
+    id:number = 0
 
+    @Expose()
     @IsString()
     @IsNotEmpty()
-    public readonly username:string
-
-    constructor(id:number, username:string){
-        this.id = id
-        this.username = username
-    }
+    username:string = ''
 }

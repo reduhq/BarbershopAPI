@@ -5,6 +5,7 @@ import IUserService from '../../Barbershop.AppCore/Interfaces/IUserService'
 import ValidationMiddleware from '../Middlewares/ValidationMiddleware'
 import UserCreateDTO from '../../Barbershop.AppCore/DTO/UserDTO/UserCreateDTO'
 import UserDTO from '../../Barbershop.AppCore/DTO/UserDTO/UserDTO'
+import { plainToInstance } from 'class-transformer'
 
 @controller('/user')
 export default class UserController{
@@ -25,10 +26,7 @@ export default class UserController{
         // Creating a new User
         const newUser = await this.userService.Create(user)
         // Returning the UserDTO
-        const response = new UserDTO(
-            newUser.id,
-            newUser.username
-        )
+        const response = plainToInstance(UserDTO, newUser, {excludeExtraneousValues: true})
         return res.status(200).json(response)
     }
 
@@ -38,7 +36,7 @@ export default class UserController{
         const users = await this.userService.GetAll()
 
         // Returning a list of UserDTO
-        const response = users.map(user => new UserDTO(user.id, user.username))
+        const response = plainToInstance(UserDTO, users, {excludeExtraneousValues: true})
         return res.status(200).json(response)
     }
 }

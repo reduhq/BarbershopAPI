@@ -4,6 +4,7 @@ import IUserRepository from "../../Barbershop.Domain/Interfaces/IUserRepository"
 import IUserService from "../Interfaces/IUserService";
 import UserCreateDTO from "../DTO/UserDTO/UserCreateDTO";
 import UserUpdateDTO from "../DTO/UserDTO/UserUpdateDTO";
+import Security from "../utils/Security";
 
 @injectable()
 export default class UserService implements IUserService{
@@ -16,6 +17,7 @@ export default class UserService implements IUserService{
         return await this.userRepository.GetByUsername(username)
     }
     public async Create(t: UserCreateDTO): Promise<User> {
+        t.password = await Security.HashPassword(t.password)
         return await this.userRepository.Create(t)
     }
     public async Update(t: UserUpdateDTO): Promise<User> {

@@ -1,5 +1,6 @@
 import {compare, hash} from 'bcrypt'
 import {sign} from 'jsonwebtoken'
+import settings from '../Settings'
 
 export default class Security{
     // PASSWORD
@@ -18,7 +19,7 @@ export default class Security{
         if(expiresDelta){
             expire = Math.floor(Date.now()/1000) + expiresDelta
         }else{
-            expire = Math.floor(Date.now()/1000) + 1
+            expire = Math.floor(Date.now()/1000) + settings.ACCESS_TOKEN_EXPIRES_MINUTES
         }
         // Setting the payload
         const toEncode = {
@@ -26,7 +27,7 @@ export default class Security{
             "sub": subject.toString()
         }
         // Signing the Token
-        const encodedJWT = sign(toEncode, "SECRET_KEY")
+        const encodedJWT = sign(toEncode, settings.SECRET_KEY)
         return encodedJWT
     }
 }

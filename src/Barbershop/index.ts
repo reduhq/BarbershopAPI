@@ -4,6 +4,7 @@ import { InversifyExpressServer } from 'inversify-express-utils'
 import { container } from './inversify.config'
 
 import './Controllers/UserController'
+import './Controllers/LoginController'
 
 const PORT = 8000
 

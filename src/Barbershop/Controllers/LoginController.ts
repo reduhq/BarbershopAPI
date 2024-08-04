@@ -4,6 +4,7 @@ import IUserService from "../../Barbershop.AppCore/Interfaces/IUserService";
 import { inject } from "inversify";
 import { body, Result, validationResult } from "express-validator";
 import ErrorFormater from "../../Barbershop.AppCore/utils/ErrorFormater";
+import Security from "../../Barbershop.AppCore/utils/Security";
 
 
 @controller('')
@@ -32,7 +33,9 @@ export default class LoginController{
         if(!user){
             return res.status(400).json('Credenciales invalidas')
         }
-        // Create a JWT
-        return res.status(200).json("")
+        return res.status(200).json({
+            "access_token": Security.CreateJWT(user.id),
+            "token_type": "bearer"
+        })
     }
 }

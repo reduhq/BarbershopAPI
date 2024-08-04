@@ -6,6 +6,6 @@ export default class Security{
     }
 
     public static async ValidatePassword(password:string, hash:string):Promise<boolean>{
-        return compare(password, hash)
+        return await compare(password, hash)
     }
 }

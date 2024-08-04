@@ -13,6 +13,18 @@ export default class UserService implements IUserService{
     constructor(@inject('IUserRepository') userRepository: IUserRepository){
         this.userRepository = userRepository
     }
+    public async Authenticate(username: string, password: string): Promise<User|null> {
+        const user = await this.userRepository.GetByUsername(username)
+        if(!user){
+            return null
+        }
+        // Validating the password
+        const validPassword = await Security.ValidatePassword(password, user.password)
+        if(!validPassword){
+            return null
+        }
+        return user
+    }
     public async GetByUsername(username: string): Promise<User> {
         return await this.userRepository.GetByUsername(username)
     }

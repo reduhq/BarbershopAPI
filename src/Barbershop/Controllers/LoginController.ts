@@ -2,10 +2,10 @@ import { Request, Response } from "express";
 import { controller, httpPost } from "inversify-express-utils";
 import IUserService from "../../Barbershop.AppCore/Interfaces/IUserService";
 import { inject } from "inversify";
-import { body, Result, validationResult } from "express-validator";
-import ErrorFormater from "../../Barbershop.AppCore/utils/ErrorFormater";
+import { body } from "express-validator";
 import Security from "../../Barbershop.AppCore/utils/Security";
 import settings from "../../Barbershop.AppCore/Settings";
+import ValidationMiddleware from "../Middlewares/ValidationMiddleware";
 
 
 @controller('')
@@ -18,16 +18,10 @@ export default class LoginController{
 
     @httpPost('/login/access-token',
         body('username').isString().withMessage('El username deberia ser un string').notEmpty().withMessage('El username no puede estar vacio'),
-        body('password').isString().withMessage('La contraseña deberia ser un string').notEmpty().withMessage('La contraseña no puede estar vacia')
+        body('password').isString().withMessage('La contraseña deberia ser un string').notEmpty().withMessage('La contraseña no puede estar vacia'),
+        ValidationMiddleware.validate()
     )
     public async LoginAccessToken(req:Request, res:Response): Promise<Response>{
-        // Validating the request body
-        const errors:Result = validationResult(req)
-        if(!errors.isEmpty()){
-            // Validation error: 422
-            return res.status(422).json(ErrorFormater.ExpressValidator(errors))
-        }
-        //
         const {username, password} = req.body
         // Validating the username and password
         const user = await this.userService.Authenticate(username, password)

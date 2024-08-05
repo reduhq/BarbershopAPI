@@ -1,13 +1,14 @@
 import { Request, Response } from 'express'
 import { controller, httpGet, httpPost } from 'inversify-express-utils'
 import { inject } from 'inversify'
-import IUserService from '../../Barbershop.AppCore/Interfaces/IUserService'
-import ValidationMiddleware from '../Middlewares/ValidationMiddleware'
-import UserCreateDTO from '../../Barbershop.AppCore/DTO/UserDTO/UserCreateDTO'
-import UserDTO from '../../Barbershop.AppCore/DTO/UserDTO/UserDTO'
+import IUserService from '../../../Barbershop.AppCore/Interfaces/IUserService'
+import ValidationMiddleware from '../../Middlewares/ValidationMiddleware'
+import UserCreateDTO from '../../../Barbershop.AppCore/DTO/UserDTO/UserCreateDTO'
+import UserDTO from '../../../Barbershop.AppCore/DTO/UserDTO/UserDTO'
 import { plainToInstance } from 'class-transformer'
+import settings from '../../../Barbershop.AppCore/Settings'
 
-@controller('/user')
+@controller(`${settings.API_V1_STR}/user`)
 export default class UserController{
     private userService:IUserService
 

@@ -3,10 +3,12 @@ import express from 'express'
 import { InversifyExpressServer } from 'inversify-express-utils'
 import { container } from './inversify.config'
 
-import './Controllers/UserController'
-import './Controllers/LoginController'
+import './Controllers/v1/UserController'
+import './Controllers/v1/LoginController'
+import swaggerDocs from "./swagger";
+import settings from "../Barbershop.AppCore/Settings";
 
-const PORT = 8000
+const PORT = settings.PORT
 
 const server = new InversifyExpressServer(container)
 
@@ -17,5 +19,6 @@ server.setConfig(app =>{
 const app = server.build()
 
 app.listen(PORT, ()=>{
-    console.log(`Server running on port ${PORT}`)
+    console.log(`🚀 Server running on ${settings.SERVER_HOST}/api`)
+    swaggerDocs(app)
 })

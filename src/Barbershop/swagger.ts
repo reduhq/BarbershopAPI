@@ -1,7 +1,7 @@
 import swaggerJSDoc from 'swagger-jsdoc'
 import swaggerUI from 'swagger-ui-express'
 import express from 'express'
-import settings from '../Barbershop.AppCore/Settings'
+import settings from './Settings'
 
 // Metadata info about our API
 const options = {

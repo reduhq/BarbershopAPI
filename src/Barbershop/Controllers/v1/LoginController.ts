@@ -3,9 +3,9 @@ import { controller, httpPost } from "inversify-express-utils";
 import IUserService from "../../../Barbershop.AppCore/Interfaces/IUserService";
 import { inject } from "inversify";
 import { body } from "express-validator";
-import Security from "../../../Barbershop.AppCore/utils/Security";
-import settings from "../../../Barbershop.AppCore/Settings";
+import settings from "../../Settings";
 import ValidationMiddleware from "../../Middlewares/ValidationMiddleware";
+import JWT from "../../libs/JWT";
 
 
 @controller(`${settings.API_V1_STR}`)
@@ -29,7 +29,7 @@ export default class LoginController{
             return res.status(400).json('Credenciales invalidas')
         }
         return res.status(200).json({
-            "access_token": Security.CreateJWT(user.id, settings.ACCESS_TOKEN_EXPIRES_MINUTES),
+            "access_token": JWT.CreateJWT(user.id, settings.ACCESS_TOKEN_EXPIRES_MINUTES),
             "token_type": "bearer"
         })
     }

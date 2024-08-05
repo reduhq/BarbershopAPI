@@ -6,7 +6,7 @@ import { container } from './inversify.config'
 import './Controllers/v1/UserController'
 import './Controllers/v1/LoginController'
 import swaggerDocs from "./swagger";
-import settings from "../Barbershop.AppCore/Settings";
+import settings from "./Settings";
 
 const PORT = settings.PORT
 

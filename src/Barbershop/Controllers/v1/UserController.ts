@@ -6,7 +6,7 @@ import ValidationMiddleware from '../../Middlewares/ValidationMiddleware'
 import UserCreateDTO from '../../../Barbershop.AppCore/DTO/UserDTO/UserCreateDTO'
 import UserDTO from '../../../Barbershop.AppCore/DTO/UserDTO/UserDTO'
 import { plainToInstance } from 'class-transformer'
-import settings from '../../../Barbershop.AppCore/Settings'
+import settings from '../../Settings'
 
 @controller(`${settings.API_V1_STR}/user`)
 export default class UserController{

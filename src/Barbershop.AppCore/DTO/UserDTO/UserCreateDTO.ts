@@ -1,6 +1,20 @@
 import { Expose } from "class-transformer";
 import { IsNotEmpty, IsString, MinLength } from "class-validator";
 
+/**
+ *  @swagger
+ *  components:
+ *      schemas:
+ *          UserCreateDTO:
+ *              type: object
+ *              properties:
+ *                  username: 
+ *                      type: string
+ *                      example: reduhq
+ *                  password: 
+ *                      type: string
+ *                      example: 12345678
+ */
 export default class UserCreateDTO{
     @Expose()
     @IsString()

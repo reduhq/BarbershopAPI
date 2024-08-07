@@ -10,12 +10,38 @@ import settings from '../../Settings'
 
 @controller(`${settings.API_V1_STR}/user`)
 export default class UserController{
+    /**
+     *  @swagger
+     *  tags:
+     *      name: User
+     *      description: Gestión de usuarios
+     */
     private userService:IUserService
 
     constructor(@inject('IUserService') userService : IUserService){
         this.userService = userService
     }
 
+    /**
+     *  @swagger
+     *  /api/v1/user:
+     *      post:
+     *          summary: Create a new user
+     *          tags: [User]
+     *          requestBody:
+     *              required: true
+     *              content:
+     *                  application/json:
+     *                      schema:
+     *                          $ref: '#/components/schemas/UserCreateDTO'
+     *          responses:
+     *              200:
+     *                  description: User created successfully
+     *                  content: 
+     *                      application/json:
+     *                          schema:
+     *                              $ref: '#/components/schemas/UserDTO'
+     */
     @httpPost('/', ValidationMiddleware.body(UserCreateDTO))
     public async create(req:Request, res:Response): Promise<Response<UserDTO>>{
         const user:UserCreateDTO = req.body
@@ -31,6 +57,22 @@ export default class UserController{
         return res.status(200).json(response)
     }
 
+    /**
+     *  @swagger
+     *  /api/v1/user:
+     *      get:
+     *          summary: Get all registered users
+     *          tags: [User]
+     *          responses:
+     *              200:
+     *                  description: List of users
+     *                  content: 
+     *                      application/json:
+     *                          schema:
+     *                              type: array
+     *                              items:
+     *                                  $ref: '#/components/schemas/UserDTO'
+     */
     @httpGet('/')
     public async getAll(_req:Request, res:Response){
         // Getting all the Users

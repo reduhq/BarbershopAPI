@@ -27,6 +27,7 @@ export default class UserController{
      *  /api/v1/user:
      *      post:
      *          summary: Create a new user
+     *          security: []
      *          tags: [User]
      *          requestBody:
      *              required: true
@@ -62,6 +63,7 @@ export default class UserController{
      *  /api/v1/user:
      *      get:
      *          summary: Get all registered users
+     *          security: []
      *          tags: [User]
      *          responses:
      *              200:

@@ -10,12 +10,28 @@ const options = {
         info:{
             title: 'Barbershop API',
             version: '1.0.0'
-        }
+        },
+        components: {
+            securitySchemes: {
+                oAuth2Password: {
+                    type: 'oauth2',
+                    // description: '',
+                    flows:{
+                        password:{
+                            tokenUrl: '/api/v1/login/access-token'
+                        }
+                    }
+                }
+            }
+        },
+        security: [{
+            oAuth2Password: []
+        }]
     },
     apis:[
         './src/Barbershop.AppCore/DTO/*/*',
         './src/Barbershop/Controllers/v1/*'
-    ]
+    ],
 }
 
 // Docs en JSON format
